@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "index.js",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
     "start": "node index.js",
