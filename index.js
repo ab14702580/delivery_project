@@ -193,7 +193,7 @@ async function run() {
 
         if (!email) {
           return res.status(403).send({
-            massage: "forbidden access",
+            message: "forbidden access",
           });
         }
 
@@ -207,7 +207,7 @@ async function run() {
         // User must exist and role must be admin
         if (!find || find.role !== "admin") {
           return res.status(403).send({
-            massage: "forbidden access",
+            message: "forbidden access",
           });
         }
 
@@ -1285,24 +1285,7 @@ async function run() {
 
           }
 
-
-          const result =
-            await paymentCollection
-              .find(query)
               .toArray();
-
-
-          console.log(
-            "this is a result",
-            result,
-            query
-          );
-
-
-          res.send(result);
-
-        } catch (error) {
-
           console.error(
             "Get rider parcels error:",
             error
@@ -1323,6 +1306,10 @@ async function run() {
 
     app.get(
       "/percelGet/:id",
+
+              // Rider update completed
+
+            // Parcel update completed
       async (req, res) => {
 
         try {
@@ -1434,11 +1421,7 @@ async function run() {
           const paymentInfo =
             req.body;
 
-
-          console.log(
-            "this is a payment Info",
-            paymentInfo
-          );
+          // Payment info received (sensitive fields omitted from logs)
 
 
           // Convert cost into cents
@@ -1615,18 +1598,12 @@ async function run() {
               );
 
 
-            console.log(
-              "this is rider update data",
-              riderUpdate
-            );
+            // Rider update completed
 
           }
 
 
-          console.log(
-            "this iis a reslut",
-            result
-          );
+          // Parcel update completed
 
 
           // --------------------------------------------------
@@ -1856,10 +1833,7 @@ async function run() {
           };
 
 
-          console.log(
-            "this is a payment info",
-            paymentDetails
-          );
+          // paymentDetails prepared (sensitive fields omitted from logs)
 
 
           // --------------------------------------------------
@@ -2047,15 +2021,16 @@ run().catch((error) => {
 });
 
 
-app.get('/' , (req , res) => {
-  res.send('server is running')
-})
-
-// Start Express server
-app.listen(port, () => {
-
-  console.log(
-    `Server is running on port ${port}`
-  );
-
+app.get('/', (req, res) => {
+  res.send('server is running');
 });
+
+// Only start a listener when running locally (not on Vercel serverless)
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
+
+// Export app for serverless platforms (Vercel) to use as a handler
+module.exports = app;
