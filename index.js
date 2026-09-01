@@ -28,12 +28,23 @@ require("dotenv").config();
 
 // const serviceAccount = require("./firebase-admin-key.json");
 
-const decoded = Buffer.from(process.env.FB_SERVICE_KEY, 'base64').toString('utf8')
-const serviceAccount = JSON.parse(decoded);
+let fbInitialized = false;
+try {
+  if (process.env.FB_SERVICE_KEY) {
+    const decoded = Buffer.from(process.env.FB_SERVICE_KEY, 'base64').toString('utf8');
+    const serviceAccount = JSON.parse(decoded);
 
-initializeApp({
-  credential: cert(serviceAccount),
-});
+    initializeApp({
+      credential: cert(serviceAccount),
+    });
+
+    fbInitialized = true;
+  } else {
+    console.warn('FB_SERVICE_KEY not set — Firebase Admin not initialized');
+  }
+} catch (err) {
+  console.error('Firebase initialization error:', err);
+}
 
 
 // ============================================================
@@ -75,6 +86,9 @@ function generateTrackingId() {
 
 const verify = async (req, res, next) => {
   try {
+    if (!fbInitialized) {
+      return res.status(503).send({ message: 'Authentication not configured' });
+    }
     const authHeader = req.headers.authorization;
 
     // Authorization header check
@@ -109,7 +123,16 @@ const verify = async (req, res, next) => {
 // STRIPE CONFIGURATION
 // ============================================================
 
-const stripe = require("stripe")(process.env.SECRET_URL);
+let stripe = null;
+if (process.env.SECRET_URL) {
+  try {
+    stripe = require('stripe')(process.env.SECRET_URL);
+  } catch (err) {
+    console.error('Stripe init error:', err);
+  }
+} else {
+  console.warn('SECRET_URL (Stripe key) not set — Stripe disabled');
+}
 
 
 // ============================================================
@@ -1285,7 +1308,12 @@ async function run() {
 
           }
 
-              .toArray();
+          const result = await paymentCollection.find(query).toArray();
+
+          res.send(result);
+
+        } catch (error) {
+
           console.error(
             "Get rider parcels error:",
             error
@@ -1421,7 +1449,9 @@ async function run() {
           const paymentInfo =
             req.body;
 
-          // Payment info received (sensitive fields omitted from logs)
+          if (!stripe) {
+            return res.status(500).send({ message: 'Stripe not configured' });
+          }
 
 
           // Convert cost into cents
@@ -1663,29 +1693,20 @@ async function run() {
           // Get Stripe session
           // --------------------------------------------------
 
-          const decode =
-            await stripe.checkout.sessions.retrieve(
-              id,
-              {
-                expand: [
-                  "line_items.data.price.product"
-                ],
-              }
-            );
+          if (!stripe) {
+            return res.status(500).send({ message: 'Stripe not configured' });
+          }
+
+          const decode = await stripe.checkout.sessions.retrieve(id, {
+            expand: ["line_items.data.price.product"],
+          });
 
 
           // --------------------------------------------------
           // Get tracking ID
           // --------------------------------------------------
 
-          const trackingId =
-            decode.metadata?.trackingId;
-
-
-          console.log(
-            "this is a before tracking id",
-            trackingId
-          );
+          const trackingId = decode.metadata?.trackingId;
 
 
           // --------------------------------------------------
