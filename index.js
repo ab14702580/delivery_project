@@ -2047,6 +2047,10 @@ run().catch((error) => {
 });
 
 
+app.get('/' , (req , res) => {
+  res.send('server is running')
+})
+
 // Start Express server
 app.listen(port, () => {
 
