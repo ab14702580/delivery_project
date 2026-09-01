@@ -17,9 +17,9 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "firebase-admin": "14.3.0",
-    "jwks-rsa": "^3.2.2",
-    "mongodb": "^7.5.0",
-    "stripe": "^22.5.0"
+    "firebase-admin": "^14.3.0",
+    "jwks-rsa": "^4.1.0",
+    "mongodb": "^7.6.0",
+    "stripe": "^22.6.0"
   }
 }
