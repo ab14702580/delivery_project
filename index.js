@@ -172,12 +172,13 @@ async function run() {
     // --------------------------------------------------------
 
     await client.connect();
-
+errorStore = "this is a connect bottom";
     try {
+errorStore = "this is enter of checking"
       await client.db("admin").command({ ping: 1 });
 
       
-  errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
+       await errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
     } catch (pingErr) {
         errorStore =  pingErr.message;
     }
