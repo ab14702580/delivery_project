@@ -153,11 +153,11 @@ const client = new MongoClient(uri, {
 // ============================================================
 // MAIN DATABASE FUNCTION
 // ============================================================
-// let errorStore = '';
+let errorStore = '';
 
 async function run() {
   try{
-  // errorStore = "this is a call";
+  errorStore = "this is a call";
 
 
     // --------------------------------------------------------
@@ -165,16 +165,16 @@ async function run() {
     // --------------------------------------------------------
 
     await client.connect();
-// errorStore = "this is a connect bottom";
-//     try {
-// errorStore = "this is enter of checking"
-//       await client.db("admin").command({ ping: 1 });
+errorStore = "this is a connect bottom";
+    try {
+errorStore = "this is enter of checking"
+      await client.db("admin").command({ ping: 1 });
 
       
-//        errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
-//     } catch (pingErr) {
-//         errorStore =  pingErr.message;
-//     }
+       errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
+    } catch (pingErr) {
+        errorStore =  pingErr.message;
+    }
 
 
     // --------------------------------------------------------
@@ -2033,7 +2033,7 @@ async function run() {
 
 
 run().catch((error) => {
-  // errorStore = 'server error show';
+  errorStore = 'server error show';
   console.error(
     "Server startup error:",
     error
