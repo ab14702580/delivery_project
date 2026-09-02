@@ -2027,7 +2027,7 @@ errorStore = "this is enter of checking"
       "Database connection error:",
       error
     );
-    errorStore = `database connection error: ${error.message || 'error not show'}`
+    errorStore = `database connection error: ${error.message || 'error not show'} ${error || 'this is a error'}`
 
   }
 
