@@ -178,7 +178,7 @@ errorStore = "this is enter of checking"
       await client.db("admin").command({ ping: 1 });
 
       
-       await errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
+       errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
     } catch (pingErr) {
         errorStore =  pingErr.message;
     }
