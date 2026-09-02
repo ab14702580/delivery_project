@@ -162,8 +162,10 @@ const client = new MongoClient(uri, {
 // ============================================================
 // MAIN DATABASE FUNCTION
 // ============================================================
+let errorStore = '';
 
 async function run() {
+  errorStore = "this is a call";
   try {
 
     // --------------------------------------------------------
@@ -2035,7 +2037,7 @@ async function run() {
 // START DATABASE + SERVER
 // ============================================================
 
-let errorStore = '';
+
 
 run().catch((error) => {
   errorStore = 'server error show';
@@ -2044,10 +2046,9 @@ run().catch((error) => {
     error
   );
 });
- errorStore = 'outside error';
 
 app.get('/', (req, res) => {
-  res.send(`server is running ${errorStore}`);
+  res.send(`server is running ${errorStore || 'outside error'}`);
 });
 
 // Only start a listener when running locally (not on Vercel serverless)
