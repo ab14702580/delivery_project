@@ -2036,17 +2036,16 @@ async function run() {
 // ============================================================
 
 
+
+
+app.get('/', (req, res) => {
 run().catch((error) => {
-  console.error(
+  res.send(
     "Server startup error:",
     error
   );
 });
 
-app.get('/deliveryStatus' , (req , res) => res.send('this is a delivery status') );
-
-app.get('/', (req, res) => {
-  res.send('server is running');
 });
 
 // Only start a listener when running locally (not on Vercel serverless)
