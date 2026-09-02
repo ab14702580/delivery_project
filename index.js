@@ -139,7 +139,16 @@ if (process.env.SECRET_URL) {
 // MONGODB CONFIGURATION
 // ============================================================
 
-const uri =`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-efk2rtp-shard-00-00.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-01.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-02.hhehsjt.mongodb.net:27017/?ssl=true&replicaSet=atlas-106i7s-shard-0&authSource=admin&appName=Cluster0`;
+const uri = `
+  mongodb://${process.env.DB_USER}:${process.env.DB_PASS}
+  @ac-efk2rtp-shard-00-00.hhehsjt.mongodb.net:27017,
+  ac-efk2rtp-shard-00-01.hhehsjt.mongodb.net:27017,
+  ac-efk2rtp-shard-00-02.hhehsjt.mongodb.net:27017
+  /?ssl=true
+  &replicaSet=atlas-106i7s-shard-0
+  &authSource=admin
+  &appName=Cluster0
+`.replace(/\s+/g, "");
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -153,28 +162,24 @@ const client = new MongoClient(uri, {
 // ============================================================
 // MAIN DATABASE FUNCTION
 // ============================================================
-let errorStore = '';
 
 async function run() {
-  try{
-  errorStore = "this is a call";
 
+  try {
 
     // --------------------------------------------------------
     // CONNECT TO MONGODB
     // --------------------------------------------------------
 
     await client.connect();
-errorStore = "this is a connect bottom";
-    try {
-errorStore = "this is enter of checking"
-      await client.db("admin").command({ ping: 1 });
 
-      
-       errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
-    } catch (pingErr) {
-        errorStore =  pingErr.message;
-    }
+    // await client.db("admin").command({
+    //   ping: 1,
+    // });
+
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
 
 
     // --------------------------------------------------------
@@ -2008,6 +2013,7 @@ errorStore = "this is enter of checking"
       }
     );
 
+
   } catch (error) {
 
     // ========================================================
@@ -2018,10 +2024,8 @@ errorStore = "this is enter of checking"
       "Database connection error:",
       error
     );
-    errorStore = `database connection error: ${error.message || 'error not show'} ${error || 'this is a error'}`
 
   }
-
 
 }
 
@@ -2030,18 +2034,16 @@ errorStore = "this is enter of checking"
 // START DATABASE + SERVER
 // ============================================================
 
-
-
 run().catch((error) => {
-  errorStore = 'server error show';
   console.error(
     "Server startup error:",
     error
   );
 });
 
+
 app.get('/', (req, res) => {
-  res.send(`server is running ${errorStore || 'outside error'}`);
+  res.send('server is running');
 });
 
 // Only start a listener when running locally (not on Vercel serverless)
