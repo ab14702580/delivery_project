@@ -2035,17 +2035,19 @@ async function run() {
 // START DATABASE + SERVER
 // ============================================================
 
+let errorStore = '';
 
-
-
-app.get('/', (req, res) => {
 run().catch((error) => {
-  res.send(
+  errorStore = 'server error show';
+  console.error(
     "Server startup error:",
     error
   );
 });
 
+
+app.get('/', (req, res) => {
+  res.send(`server is running ${errorStore}`);
 });
 
 // Only start a listener when running locally (not on Vercel serverless)
