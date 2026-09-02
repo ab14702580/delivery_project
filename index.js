@@ -138,17 +138,7 @@ if (process.env.SECRET_URL) {
 // ============================================================
 // MONGODB CONFIGURATION
 // ============================================================
-
-const uri = `
-  mongodb://${process.env.DB_USER}:${process.env.DB_PASS}
-  @ac-efk2rtp-shard-00-00.hhehsjt.mongodb.net:27017,
-  ac-efk2rtp-shard-00-01.hhehsjt.mongodb.net:27017,
-  ac-efk2rtp-shard-00-02.hhehsjt.mongodb.net:27017
-  /?ssl=true
-  &replicaSet=atlas-106i7s-shard-0
-  &authSource=admin
-  &appName=Cluster0
-`.replace(/\s+/g, "");
+const uri =`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-efk2rtp-shard-00-00.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-01.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-02.hhehsjt.mongodb.net:27017/?ssl=true&replicaSet=atlas-106i7s-shard-0&authSource=admin&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
   serverApi: {
