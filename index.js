@@ -156,6 +156,7 @@ const client = new MongoClient(uri, {
 let errorStore = '';
 
 async function run() {
+  try{
   errorStore = "this is a call";
 
 
@@ -2007,6 +2008,19 @@ errorStore = "this is enter of checking"
       }
     );
 
+  } catch (error) {
+
+    // ========================================================
+    // DATABASE CONNECTION ERROR
+    // ========================================================
+
+    console.error(
+      "Database connection error:",
+      error
+    );
+    errorStore = `database connection error: ${error.message || 'error not show'} ${error || 'this is a error'}`
+
+  }
 
 
 }
