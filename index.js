@@ -2044,7 +2044,7 @@ run().catch((error) => {
     error
   );
 });
-
+ errorStore = 'outside error';
 
 app.get('/', (req, res) => {
   res.send(`server is running ${errorStore}`);
