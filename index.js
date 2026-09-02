@@ -165,7 +165,6 @@ const client = new MongoClient(uri, {
 let errorStore = '';
 
 async function run() {
-  errorStore = "this is a call";
   try {
 
     // --------------------------------------------------------
@@ -174,15 +173,14 @@ async function run() {
 
     await client.connect();
 
-    // try {
-    //   await client.db("admin").command({ ping: 1 });
+    try {
+      await client.db("admin").command({ ping: 1 });
 
-    //   console.log(
-    //     "Pinged your deployment. You successfully connected to MongoDB!"
-    //   );
-    // } catch (pingErr) {
-    //   console.warn("MongoDB ping failed:", pingErr && pingErr.message ? pingErr.message : pingErr);
-    // }
+      
+  errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
+    } catch (pingErr) {
+        errorStore =  pingErr.message;
+    }
 
 
     // --------------------------------------------------------
