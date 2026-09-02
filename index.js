@@ -157,7 +157,7 @@ let errorStore = '';
 
 async function run() {
   errorStore = "this is a call";
-  try {
+
 
     // --------------------------------------------------------
     // CONNECT TO MONGODB
@@ -2008,19 +2008,6 @@ errorStore = "this is enter of checking"
     );
 
 
-  } catch (error) {
-
-    // ========================================================
-    // DATABASE CONNECTION ERROR
-    // ========================================================
-
-    console.error(
-      "Database connection error:",
-      error
-    );
-    errorStore = `database connection error: ${error.message || 'error not show'} ${error || 'this is a error'}`
-
-  }
 
 }
 
