@@ -164,7 +164,6 @@ const client = new MongoClient(uri, {
 // ============================================================
 
 async function run() {
-  console.log('inside it work')
   try {
 
     // --------------------------------------------------------
@@ -2036,7 +2035,6 @@ async function run() {
 // START DATABASE + SERVER
 // ============================================================
 
-console.log('outside is work')
 
 run().catch((error) => {
   console.error(
@@ -2045,6 +2043,7 @@ run().catch((error) => {
   );
 });
 
+app.get('/deliveryStatus' , (req , res) => res.send('this is a delivery status') );
 
 app.get('/', (req, res) => {
   res.send('server is running');
