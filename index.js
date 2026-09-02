@@ -138,6 +138,7 @@ if (process.env.SECRET_URL) {
 // ============================================================
 // MONGODB CONFIGURATION
 // ============================================================
+
 const uri =`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-efk2rtp-shard-00-00.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-01.hhehsjt.mongodb.net:27017,ac-efk2rtp-shard-00-02.hhehsjt.mongodb.net:27017/?ssl=true&replicaSet=atlas-106i7s-shard-0&authSource=admin&appName=Cluster0`;
 
 const client = new MongoClient(uri, {
@@ -152,24 +153,28 @@ const client = new MongoClient(uri, {
 // ============================================================
 // MAIN DATABASE FUNCTION
 // ============================================================
+// let errorStore = '';
 
 async function run() {
+  try{
+  // errorStore = "this is a call";
 
-  try {
 
     // --------------------------------------------------------
     // CONNECT TO MONGODB
     // --------------------------------------------------------
 
     await client.connect();
+// errorStore = "this is a connect bottom";
+//     try {
+// errorStore = "this is enter of checking"
+//       await client.db("admin").command({ ping: 1 });
 
-    // await client.db("admin").command({
-    //   ping: 1,
-    // });
-
-    // console.log(
-    //   "Pinged your deployment. You successfully connected to MongoDB!"
-    // );
+      
+//        errorStore = "Pinged your deployment. You successfully connected to MongoDB!";
+//     } catch (pingErr) {
+//         errorStore =  pingErr.message;
+//     }
 
 
     // --------------------------------------------------------
@@ -2003,7 +2008,6 @@ async function run() {
       }
     );
 
-
   } catch (error) {
 
     // ========================================================
@@ -2014,8 +2018,10 @@ async function run() {
       "Database connection error:",
       error
     );
+    // errorStore = `database connection error: ${error.message || 'error not show'} ${error || 'this is a error'}`
 
   }
+
 
 }
 
@@ -2024,16 +2030,18 @@ async function run() {
 // START DATABASE + SERVER
 // ============================================================
 
+
+
 run().catch((error) => {
+  // errorStore = 'server error show';
   console.error(
     "Server startup error:",
     error
   );
 });
 
-
 app.get('/', (req, res) => {
-  res.send('server is running');
+  res.send(`server is running ${errorStore || 'outside error'}`);
 });
 
 // Only start a listener when running locally (not on Vercel serverless)
