@@ -173,13 +173,15 @@ async function run() {
 
     await client.connect();
 
-    await client.db("admin").command({
-      ping: 1,
-    });
+    try {
+      await client.db("admin").command({ ping: 1 });
 
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+      console.log(
+        "Pinged your deployment. You successfully connected to MongoDB!"
+      );
+    } catch (pingErr) {
+      console.warn("MongoDB ping failed:", pingErr && pingErr.message ? pingErr.message : pingErr);
+    }
 
 
     // --------------------------------------------------------
